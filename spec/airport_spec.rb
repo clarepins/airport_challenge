@@ -37,7 +37,21 @@ describe Airport do
   it "raises error when asked to take off in stormy weather" do
     airport = Airport.new
     allow(airport).to receive(:is_stormy) { true }
-    expect{airport.take_off}.to raise_error.with_message("Stormy weather. Plane is grounded.")
+    expect{ airport.take_off }.to raise_error.with_message("Stormy weather. Plane is grounded.")
+  end
+
+  it "raises error when asked to land in stormy weather" do
+    airport = Airport.new
+    allow(airport).to receive(:is_stormy) { true }
+    plane = Plane.new
+    expect{ airport.land(plane) }.to raise_error.with_message("Turn your plane around.")
+  end
+
+  it "won't accept more planes than its capacity" do
+    airport = Airport.new
+    allow(airport).to receive(:is_stormy) { false }
+    airport.land(Plane.new)
+    expect{ airport.land(Plane.new) }.to raise_error.with_message("Turn your plane around.")
   end
 
 end
