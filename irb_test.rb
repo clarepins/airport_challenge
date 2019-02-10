@@ -1,6 +1,7 @@
 require "./lib/airport"
 require "./lib/plane"
-is_stormy = true
 airport = Airport.new
-
-airport.take_off
+plane = Plane.new
+airport.land(plane)
+airport.take_off(plane)
+airport.take_off(Plane.new)

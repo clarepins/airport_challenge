@@ -1,31 +1,34 @@
 class Airport
-  attr_accessor :plane_in_airport
+  attr_accessor :planes_in_airport
   attr_accessor :capacity
 
   def initialize(capacity = DEFAULT_CAPACITY)
-    @plane_in_airport = 0
+    @planes_in_airport = []
     @capacity = capacity
   end
 
-  DEFAULT_CAPACITY = 1
+  DEFAULT_CAPACITY = 20
 
-  def land(plane)
+  def land(plane = Plane.new)
     raise "Turn your plane around." if is_stormy || is_full
-    @plane_in_airport += 1
+    @planes_in_airport << plane
   end
 
-  def take_off
-    raise "Stormy weather. Plane is grounded." if is_stormy
-    @plane_in_airport = 0
+  def take_off(plane)
+    raise "Plane cannot take off." if is_stormy || is_empty
+    @planes_in_airport.delete(plane)
   end
 
   def is_stormy
-    [true, false].sample
-##### need to change this
+    [true, false, false, false, false].sample
   end
 
   def is_full
-    @plane_in_airport >= @capacity
+    @planes_in_airport.count >= @capacity
+  end
+
+  def is_empty
+    @planes_in_airport.count == 0
   end
 
 end
